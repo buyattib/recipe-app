@@ -1,6 +1,8 @@
-from pydantic import BaseModel, EmailStr  # , Field
+from pydantic import BaseModel, EmailStr, Field
 from typing import Optional
-from uuid import UUID  # , uuid4
+from uuid import UUID, uuid4
+
+from src.ingredients.schemas import Ingredient
 
 
 # Users schema ----------
@@ -10,8 +12,8 @@ class UserBase(BaseModel):
 
 
 class User(UserBase):
-    # id: UUID = Field(default_factory=uuid4)
-    id: UUID
+    id: UUID = Field(default_factory=uuid4)
+    ingredients: list[Ingredient] = []
 
     class Config:
         orm_mode = True

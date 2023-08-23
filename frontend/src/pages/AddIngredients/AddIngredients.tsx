@@ -1,11 +1,14 @@
+import { useState } from 'react'
 import { useForm, SubmitHandler, FieldErrors } from 'react-hook-form'
-import { Box, Button, Container, Typography } from '@mui/material'
+import { Box, Button, CircularProgress, Container, Typography } from '@mui/material'
 import { IngredientWithoutId } from '@/models'
 
 import { Input } from '@/components/Input/Input'
 import { QuantityField } from '@/components/QuantityField/QuantityField'
 
 export default function AddIngredients() {
+	const [loading, setLoading] = useState(false)
+
 	const {
 		register,
 		handleSubmit,
@@ -14,8 +17,10 @@ export default function AddIngredients() {
 	} = useForm<IngredientWithoutId>()
 
 	const onSubmit: SubmitHandler<IngredientWithoutId> = data => {
+		setLoading(true)
 		reset()
 		console.log(data)
+		setLoading(false)
 	}
 
 	const onError = (error: FieldErrors<IngredientWithoutId>) => {
@@ -134,7 +139,8 @@ export default function AddIngredients() {
 						/>
 					</Box>
 				</Box>
-				<Button type='submit' sx={{ px: 3, py: 1 }}>
+				<Button type='submit' sx={{ px: 3, py: 1, mb: 1 }} disabled={loading}>
+					{loading && <CircularProgress size={15} sx={{ m: 1 }} />}
 					Submit
 				</Button>
 			</Box>

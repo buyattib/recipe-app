@@ -1,6 +1,6 @@
 ## Recipe app
 
-Small fullstack app to practice and learn frontend and backend development.
+Small FullStack app to practice and learn frontend and backend development.
 
 The frontend is a React project initialized with viteJS.
 The idea is to learn TypeScript, MUI, react-hook-form, zustand and wouter trying to implement some concepts of clean architecture.

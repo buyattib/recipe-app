@@ -66,7 +66,7 @@ def sign_in(user: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(g
 
 
 @router.get(
-    "/authenticate",
+    "/get-current-authenticated-user",
     response_model=schemas.TokenData,
     status_code=status.HTTP_200_OK,
     summary="Validate current user",
@@ -76,7 +76,7 @@ def sign_in(user: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(g
             }
     }
 )
-def authenticate(token_data: schemas.TokenData = Depends(oauth2.get_current_user)):
+def get_current_authenticated_user(token_data: schemas.TokenData = Depends(oauth2.get_current_user)):
     return token_data
 
 

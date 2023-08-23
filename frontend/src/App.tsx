@@ -10,6 +10,7 @@ import { Private } from './route-guards'
 
 const Home = lazy(() => import('./pages/Home/Home'))
 const Login = lazy(() => import('./pages/Login/Login'))
+const AddIngredients = lazy(() => import('./pages/AddIngredients/AddIngredients'))
 
 import './App.css'
 
@@ -36,8 +37,12 @@ function App() {
 							<Home />
 						</Route>
 					</Suspense>
+					<Suspense fallback={'Loading...'}>
+						<Route path={'/' + PrivateRoutes.ADD_INGREDIENTS}>
+							<AddIngredients />
+						</Route>
+					</Suspense>
 					<Route path={'/' + PrivateRoutes.VIEW_INGREDIENTS}>View</Route>
-					<Route path={'/' + PrivateRoutes.ADD_INGREDIENTS}>Add</Route>
 				</Layout>
 			</Private>
 

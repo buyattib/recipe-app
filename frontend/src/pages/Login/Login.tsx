@@ -4,18 +4,15 @@ import { useForm, SubmitHandler, FieldErrors } from 'react-hook-form'
 import { Button, CircularProgress, Box, Typography, Backdrop, Alert, Snackbar } from '@mui/material'
 
 import { Input } from '@/components/Input'
+import { getCurrentAuthenticatedUser } from '@/services/getCurrentAuthenticatedUser'
 import { useAuthStore } from '@/stores/auth'
 import { signIn } from './services'
-
-type LoginForm = {
-	username: string
-	password: string
-}
+import { LoginForm } from '@/models'
 
 export default function Login() {
 	const [error, setError] = useState('')
 	const [loading, setLoading] = useState(false)
-	const updateToken = useAuthStore(store => store.updateToken)
+	const [updateToken, updateUser] = useAuthStore(store => [store.updateToken, store.updateUser])
 	const [, navigate] = useLocation()
 
 	const {
@@ -26,15 +23,16 @@ export default function Login() {
 	} = useForm<LoginForm>()
 
 	const onSubmit: SubmitHandler<LoginForm> = data => {
-		const urlSearchParams = new URLSearchParams()
-		urlSearchParams.append('username', data.username)
-		urlSearchParams.append('password', data.password)
-
 		setLoading(true)
-		signIn(urlSearchParams)
+		signIn(data)
 			.then(data => {
 				reset()
-				updateToken(data.access_token)
+				updateToken(data.accessToken)
+
+				return getCurrentAuthenticatedUser(data.accessToken)
+			})
+			.then(user => {
+				updateUser(user)
 				navigate('/')
 			})
 			.catch((error: Error) => {

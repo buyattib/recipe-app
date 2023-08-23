@@ -2,11 +2,25 @@ import { useState } from 'react'
 import { Link } from 'wouter'
 import { AppBar, Toolbar, IconButton, Typography, Box, Button, Drawer, Divider } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt'
 
 import { PrivateRoutes } from '@/constants'
 
-const LinkButton = ({ href, children }: { href: string; children: React.ReactNode }) => (
-	<Button sx={{ color: '#fff', padding: '14px 8px 14px 8px' }} component={Link} href={href}>
+const LinkButton = ({
+	href,
+	children,
+	onClick,
+}: {
+	href: string
+	children: React.ReactNode
+	onClick?: (evt: MouseEvent) => void
+}) => (
+	<Button
+		sx={{ color: '#fff', padding: '14px 8px 14px 8px' }}
+		component={Link}
+		href={href}
+		onClick={onClick}
+	>
 		{children}
 	</Button>
 )
@@ -29,6 +43,7 @@ export function Navbar() {
 						onClick={evt => handleDrawerToggle()}
 						sx={{
 							mr: 2,
+							pl: 2,
 							display: { sm: 'none' },
 						}}
 					>
@@ -58,6 +73,7 @@ export function Navbar() {
 						}}
 					>
 						<LinkButton href={PrivateRoutes.VIEW_INGREDIENTS}>View Ingredients</LinkButton>
+						<LinkButton href={PrivateRoutes.ADD_INGREDIENTS}>Create Ingredients</LinkButton>
 					</Box>
 				</Toolbar>
 			</AppBar>
@@ -70,22 +86,35 @@ export function Navbar() {
 						display: { xs: 'block', sm: 'none' },
 						'& .MuiDrawer-paper': {
 							boxSizing: 'border-box',
-							width: '55vw',
+							width: '70vw',
 						},
 					}}
 				>
-					<Box sx={{ textAlign: 'center', '& .MuiButton-root': { mt: 1, mb: 1, width: '100%' } }}>
-						<Typography
-							variant='h6'
-							sx={{ my: 2, color: 'inherit', textDecoration: 'none' }}
-							component={Link}
-							href='/'
-						>
-							Recipe App
-						</Typography>
+					<Box
+						sx={{
+							textAlign: 'center',
+							'& .MuiButton-root': { mt: 1, width: '100%' },
+						}}
+					>
+						<Box sx={{ m: 1 }}>
+							<Typography
+								variant='h6'
+								sx={{ color: 'inherit', textDecoration: 'none' }}
+								component={Link}
+								href='/'
+								onClick={handleDrawerToggle}
+							>
+								Recipe App
+							</Typography>
+						</Box>
 						<Divider />
-
-						<LinkButton href={PrivateRoutes.VIEW_INGREDIENTS}>View Ingredients</LinkButton>
+						<LinkButton href={PrivateRoutes.VIEW_INGREDIENTS} onClick={handleDrawerToggle}>
+							<ArrowRightAltIcon fontSize='small' sx={{ m: 1 }} /> View Ingredients
+						</LinkButton>
+						<LinkButton href={PrivateRoutes.ADD_INGREDIENTS} onClick={handleDrawerToggle}>
+							<ArrowRightAltIcon fontSize='small' sx={{ m: 1 }} />
+							Create Ingredients
+						</LinkButton>
 					</Box>
 				</Drawer>
 			</Box>
